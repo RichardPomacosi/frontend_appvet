@@ -1,0 +1,36 @@
+<template>
+  <h1>Ingresar</h1>
+  <label for="">Ingrese Correo</label><br>
+  <input type="email" v-model="usuario.email" ><br>
+  <label for="">Ingrese contraseña</label><br>
+  <input type="password" v-model="usuario.password"><br>
+
+  <button @click="ingresar()">Ingresar</button>
+{{datos}}
+</template>
+
+<script>
+//importamos solo el metodo login
+//import {login} from '../../services/auth.service'
+import * as authService from '../../services/auth.service'
+
+export default {
+    //datos del dom
+    data(){
+        return{
+            datos:"",
+            usuario:{email:"admin3j@gmail.com",password:"123"}
+        }
+    },
+    methods:{
+       async ingresar(){
+            const res=await authService.login(this.usuario);
+            this.datos=res.data
+        }
+    }
+}
+</script>
+
+<style>
+
+</style>
