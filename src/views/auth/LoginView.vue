@@ -1,4 +1,9 @@
 <template>
+<!--llamar vuex al estado-->
+<h1>{{$store.getters.obtenerContador}}</h1>
+<h1>{{$store.state.auth}}</h1>
+<button @click="$store.dispatch('aumentarEjucuar')">Cumenta</button>
+<hr>
   <h1>Ingresar</h1>
   <label for="">Ingrese Correo</label><br>
   <input type="email" v-model="usuario.email" ><br>
@@ -26,6 +31,7 @@ export default {
        async ingresar(){
             const res=await authService.login(this.usuario);
             this.datos=res.data
+            this.$store.dispatch('login',res.data)
         }
     }
 }
