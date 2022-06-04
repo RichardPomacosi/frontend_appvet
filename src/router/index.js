@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/auth/LoginView.vue'
 import store from '@/store'
-
+import {Buffer} from 'buffer'
 
 const routes = [
   {
@@ -38,8 +38,19 @@ router.beforeEach((to,from, next)=>{//to: tiene varias posibilidades que se pued
   if(to.meta.requireAuth){
     if(store.state.auth!=null){
       next();
+    }//aqui se puede colocar la sesion del local storage
+    try{
+      let auth=localStorage.getItem('auth');
+      let authJson=JSON.parse(Buffer.from(auth, 'base64').toString('ascii'));
+    }catch(error){
+      next ("/login")
+    }
+  
+    if(authJson.Token_de_acceso){
+      next()
     }else
     next("/login")
+   
   }
   else
   next();

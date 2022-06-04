@@ -18,7 +18,7 @@
 //importamos solo el metodo login
 //import {login} from '../../services/auth.service'
 import * as authService from '../../services/auth.service'
-
+import{Buffer} from 'buffer'
 export default {
     //datos del dom
     data(){
@@ -31,7 +31,11 @@ export default {
        async ingresar(){
             const res=await authService.login(this.usuario);
             this.datos=res.data
+            const base64=Buffer.from(JSON.stringify(res.data)).toString('base64');
+            localStorage.setItem("auth",base64)
             this.$store.dispatch('login',res.data)
+            //decodificar
+            //const decode= Buffer.from(base64, 'base64').toString('ascii');
         }
     }
 }
